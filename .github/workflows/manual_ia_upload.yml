@@ -17,17 +17,20 @@ on:
 jobs:
   upload_to_ia:
     runs-on: ubuntu-latest
-    container:
-      image: docker://openbookpublishers/thoth-dissemination:latest
-      env:
-        ia_s3_access: ${{ secrets.IA_S3_ACCESS }}
-        ia_s3_secret: ${{ secrets.IA_S3_SECRET }}
     strategy:
       fail-fast: false
       matrix:
         work-id: ${{ fromJSON(github.event.inputs.workIds) }}
     steps:
+      - name: Get disseminator image from Dockerhub
+        uses: docker://openbookpublishers/thoth-dissemination:latest
+
       - name: Run disseminator using Dockerhub image
         run: |
-          ./disseminator.py --work ${{ matrix.work-id }} \
-          --platform InternetArchive
+          docker load --input /tmp/${{ env.DOCKER_TAG }}.tar
+          docker run \
+            --env ia_s3_access=${{ secrets.IA_S3_ACCESS }} \
+            --env ia_s3_secret=${{ secrets.IA_S3_SECRET }} \
+            --rm ${{ env.DOCKER_TAG }} \
+            ./disseminator.py --work ${{ matrix.work-id }} \
+            --platform InternetArchive
