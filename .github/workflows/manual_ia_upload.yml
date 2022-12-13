@@ -25,7 +25,7 @@ jobs:
       - name: Run disseminator using Dockerhub image
         uses: docker://openbookpublishers/thoth-dissemination:latest
         with:
-          entrypoint: ./disseminator.py
+          entrypoint: /disseminator.py
           ia_s3_access: ${{ secrets.IA_S3_ACCESS }}
           ia_s3_secret: ${{ secrets.IA_S3_SECRET }}
           args: >-
