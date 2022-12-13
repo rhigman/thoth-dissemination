@@ -17,16 +17,11 @@ on:
 jobs:
   upload_to_ia:
     runs-on: ubuntu-latest
-      options:
-        -v "${{ github.workspace }}":"${{ github.workspace }}"
     strategy:
       fail-fast: false
       matrix:
         work-id: ${{ fromJSON(github.event.inputs.workIds) }}
     steps:
-      - name: Attempt workaround for known WORKDIR issue
-        run: cp -R /usr/src/app/* ${{ github.workspace }}/
-
       - name: Run disseminator using Dockerhub image
         uses: docker://openbookpublishers/thoth-dissemination:latest
         with:
