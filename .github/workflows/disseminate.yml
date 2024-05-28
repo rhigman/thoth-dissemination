@@ -15,6 +15,8 @@ on:
 jobs:
   disseminate:
     runs-on: ubuntu-latest
+    container:
+      image: openbookpublishers/thoth-dissemination:test
     strategy:
       fail-fast: false
       matrix:
@@ -27,8 +29,6 @@ jobs:
           convert: lower
       - name: Run disseminator using Dockerhub image
         run: |
-          docker run --rm \
-          openbookpublishers/thoth-dissemination:latest \
           ./disseminator.py \
           --work ${{ matrix.work-id }} \
           --platform ${{ inputs.platform }} \
