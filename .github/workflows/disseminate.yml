@@ -29,7 +29,7 @@ jobs:
           convert: lower
       - name: Run disseminator using Dockerhub image
         run: |
-          disseminator.py \
+          /disseminator.py \
           --work ${{ matrix.work-id }} \
           --platform ${{ inputs.platform }} \
           > ${{ matrix.work-id }}
