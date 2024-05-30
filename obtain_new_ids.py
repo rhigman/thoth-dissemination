@@ -94,7 +94,7 @@ class IDFinder():
         (e.g. works that are ineligible for upload due to not being available as PDFs)
         """
         if environ.get('ENV_EXCEPTIONS') is not None:
-            logging.debug(environ.get('ENV_EXCEPTIONS'))
+            logging.debug('Exceptions: ' + environ.get('ENV_EXCEPTIONS'))
             try:
                 exceptions = json.loads(environ.get('ENV_EXCEPTIONS'))
                 self.thoth_ids = list(
