@@ -93,8 +93,11 @@ class IDFinder():
         If a list of exceptions has been provided, remove these from the results
         (e.g. works that are ineligible for upload due to not being available as PDFs)
         """
+        logging.debug('DEBUG Remove exceptions')
+        logging.info('Remove exceptions')
+        logging.info('Exceptions (may be None): ' + environ.get('ENV_EXCEPTIONS'))
         if environ.get('ENV_EXCEPTIONS') is not None:
-            logging.debug('Exceptions: ' + environ.get('ENV_EXCEPTIONS'))
+            logging.info('Exceptions (not None): ' + environ.get('ENV_EXCEPTIONS'))
             try:
                 exceptions = json.loads(environ.get('ENV_EXCEPTIONS'))
                 self.thoth_ids = list(
