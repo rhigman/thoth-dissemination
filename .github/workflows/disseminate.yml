@@ -52,6 +52,11 @@ jobs:
       matrix:
         work-id: ${{ fromJSON(inputs.work-ids) }}
     steps:
+      - name: Download disseminator output artifact containing location info
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.work-id }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -62,11 +67,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements_write_locations.txt
-
-      - name: Download disseminator output artifact containing location info
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ matrix.work-id }}
 
       - name: Check output
         run: pwd && ls -al
