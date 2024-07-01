@@ -55,6 +55,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Download disseminator output artifact containing location info
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.work-id }}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -62,11 +67,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements_write_locations.txt
-
-      - name: Download disseminator output artifact containing location info
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ matrix.work-id }}
 
       - name: Check output
         run: pwd && ls -al
