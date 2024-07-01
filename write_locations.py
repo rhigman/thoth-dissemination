@@ -41,9 +41,6 @@ def write_thoth_location(publication_id, location_platform, landing_page,
 
 
 if __name__ == '__main__':
-    import os
-    print(os.getcwd())
-    sys.exit(1)
     locations_file = sys.argv[1]
     with open(locations_file, 'r') as locations:
         for location in locations:
