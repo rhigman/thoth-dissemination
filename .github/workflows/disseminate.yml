@@ -15,8 +15,8 @@ on:
 jobs:
   disseminate:
     runs-on: ubuntu-latest
-    container:
-      image: openbookpublishers/thoth-dissemination:latest
+    # container:
+    #   image: openbookpublishers/thoth-dissemination:latest
     strategy:
       fail-fast: false
       matrix:
@@ -30,10 +30,9 @@ jobs:
 
       - name: Run disseminator using Dockerhub image
         run: |
-          /disseminator.py \
-            --work ${{ matrix.work-id }} \
-            --platform ${{ inputs.platform }} \
-            > ${{ matrix.work-id }}
+          if [ ${{matrix.work-id}} == "1" ]; then
+            exit 1
+          fi
 
       - name: Upload output to artifact
         uses: actions/upload-artifact@v4
@@ -48,7 +47,7 @@ jobs:
   write-locations:
     runs-on: ubuntu-latest
     needs: disseminate
-    if: contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
+    if: (success() || failure()) && contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
     strategy:
       fail-fast: false
       matrix:
