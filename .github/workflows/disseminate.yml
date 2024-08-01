@@ -32,6 +32,8 @@ jobs:
         run: |
           if [ ${{matrix.work-id}} == "1" ]; then
             exit 1
+          else
+            echo "this is a location" >> ${{ matrix.work-id }}
           fi
 
       - name: Upload output to artifact
@@ -58,19 +60,22 @@ jobs:
         with:
           name: ${{ matrix.work-id }}
 
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Fake outcome
+        run: echo ${{ matrix.work-id }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+      # - name: Checkout
+      #   uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: pip install -r requirements_write_locations.txt
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.10'
 
-      - name: Write locations to Thoth using Python script
-        run: python write_locations.py ${{ matrix.work-id }}
-        env:
-          THOTH_EMAIL: ${{ secrets.THOTH_EMAIL }}
-          THOTH_PWD: ${{ secrets.THOTH_PWD }}
+      # - name: Install dependencies
+      #   run: pip install -r requirements_write_locations.txt
+
+      # - name: Write locations to Thoth using Python script
+      #   run: python write_locations.py ${{ matrix.work-id }}
+      #   env:
+      #     THOTH_EMAIL: ${{ secrets.THOTH_EMAIL }}
+      #     THOTH_PWD: ${{ secrets.THOTH_PWD }}
