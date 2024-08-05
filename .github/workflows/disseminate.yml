@@ -5,9 +5,9 @@ name: disseminate
 on:
   workflow_call:
     inputs:
-      # work-ids:
-      #   required: true
-      #   type: string
+      work-id:
+        required: true
+        type: string
       platform:
         required: true
         type: string
