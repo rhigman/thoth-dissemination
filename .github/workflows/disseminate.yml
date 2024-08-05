@@ -31,9 +31,9 @@ jobs:
       - name: Run disseminator using Dockerhub image
         run: |
           if [ ${{inputs.work-id}} == "1" ]; then
-            exit 1
+            exit 1;
           else
-            echo "this is a location" >> ${{ inputs.work-id }}
+            echo "this is a location" >> ${{ inputs.work-id }};
           fi
 
       - name: Upload output to artifact
