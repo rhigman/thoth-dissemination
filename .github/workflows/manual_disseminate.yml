@@ -29,10 +29,6 @@ jobs:
       matrix:
         work-id: ${{ fromJSON(github.event.inputs.workIds) }}
     uses: ./.github/workflows/disseminate.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        work-id: ${{ fromJSON(github.event.inputs.workIds) }}
     with:
       work-id: ${{ matrix.work-id }}
       platform: ${{ github.event.inputs.platform }}
