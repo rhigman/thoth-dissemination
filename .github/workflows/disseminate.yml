@@ -27,9 +27,9 @@ jobs:
       - name: Run disseminator using Dockerhub image
         run: |
           /disseminator.py \
-            --work ${{ matrix.work-id }} \
+            --work ${{ inputs.work-id }} \
             --platform ${{ inputs.platform }} \
-            > ${{ matrix.work-id }}
+            > ${{ inputs.work-id }}
 
       - name: Upload output to artifact
         uses: actions/upload-artifact@v4
@@ -37,7 +37,7 @@ jobs:
         with:
           name: ${{ inputs.work-id }}
           path: ${{ inputs.work-id }}
-          retention-days: 1
+          retention-days: 7
           if-no-files-found: ignore
           overwrite: false
 
@@ -46,13 +46,14 @@ jobs:
     needs: disseminate
     if: contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
     steps:
+      - name: Checkout
+        # This step deletes existing directory contents, so must be done before artifact download
+        uses: actions/checkout@v4
+
       - name: Download disseminator output artifact containing location info
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.work-id }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5

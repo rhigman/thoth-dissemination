@@ -34,15 +34,15 @@ class SOUploader(Uploader):
 
         # Fast-fail if credentials for upload are missing
         try:
-            username = self.get_credential_from_env(
+            username = self.get_variable_from_env(
                 'so_ftp_user', 'ScienceOpen')
-            password = self.get_credential_from_env('so_ftp_pw', 'ScienceOpen')
+            password = self.get_variable_from_env('so_ftp_pw', 'ScienceOpen')
         except DisseminationError as error:
             logging.error(error)
             sys.exit(1)
 
         publisher = self.get_publisher_name()
-        filename = self.get_pb_isbn()
+        filename = self.get_isbn('PAPERBACK')
         root_dir = 'UPLOAD_TO_THIS_DIRECTORY'
         collection_dir = 'books'
         new_dir = date.today().isoformat()
@@ -74,10 +74,13 @@ class SOUploader(Uploader):
         zipped_files.seek(0)
 
         try:
+            cnopts = pysftp.CnOpts()
+            cnopts.hostkeys = None
             with pysftp.Connection(
                 host='ftp.scienceopen.com',
                 username=username,
                 password=password,
+                cnopts=cnopts,
             ) as sftp:
                 try:
                     sftp.cwd(root_dir)
