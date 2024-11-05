@@ -15,23 +15,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  gp-bulk-disseminate:
+  gcloud-authenticate:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
-    # secrets: inherit
     steps:
       - uses: actions/checkout@v4
         name: Checkout (google-github-actions/auth prerequisite)
-      # - uses: google-github-actions/auth@v2
-      #   name: Authenticate to Google Cloud
-      #   with:
-      #     workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
-      #     service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-      - uses: ./.github/workflows/bulk_disseminate.yml
-        name: Call bulk_disseminate
+      - uses: google-github-actions/auth@v2
+        name: Authenticate to Google Cloud
         with:
-          platform: 'GooglePlay'
-          env_publishers: ${{ vars.GP_ENV_PUBLISHERS }}
-          env_exceptions: ${{ vars.GP_ENV_EXCEPTIONS }}
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+  
+  gp-bulk-disseminate:
+    uses: ./.github/workflows/bulk_disseminate.yml
+    name: Call bulk_disseminate
+    with:
+      platform: 'GooglePlay'
+      env_publishers: ${{ vars.GP_ENV_PUBLISHERS }}
+      env_exceptions: ${{ vars.GP_ENV_EXCEPTIONS }}
+    secrets: inherit  
