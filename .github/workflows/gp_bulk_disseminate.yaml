@@ -30,7 +30,7 @@ jobs:
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
   
   gp-bulk-disseminate:
-    needs: gcloud-authenticate
+    # needs: gcloud-authenticate
     uses: ./.github/workflows/bulk_disseminate.yml
     name: Call bulk_disseminate
     with:
