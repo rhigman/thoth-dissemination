@@ -27,7 +27,7 @@ jobs:
         name: Authenticate to Google Cloud
         with:
           workload_identity_provider: '${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}'
-          # service_account: '${{ secrets.GOOGLE_SERVICE_ACCOUNT }}'
+          service_account: '${{ secrets.GOOGLE_SERVICE_ACCOUNT }}'
   
   gp-bulk-disseminate:
     needs: gcloud-authenticate
