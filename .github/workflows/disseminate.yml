@@ -15,8 +15,8 @@ on:
 jobs:
   disseminate:
     runs-on: ubuntu-latest
-    container:
-      image: openbookpublishers/thoth-dissemination:latest
+    # container:
+    #   image: openbookpublishers/thoth-dissemination:latest
     steps:
       - name: Make all platform credentials available to later steps (with names lowercased)
         uses: oNaiPs/secrets-to-env-action@v1.5
@@ -24,9 +24,20 @@ jobs:
           secrets: ${{ toJSON(secrets) }}
           convert: lower
 
-      - name: Run disseminator using Dockerhub image
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run disseminator directly in Python
         run: |
-          /disseminator.py \
+          python disseminator.py \
             --work ${{ inputs.work-id }} \
             --platform ${{ inputs.platform }} \
             > ${{ inputs.work-id }}
