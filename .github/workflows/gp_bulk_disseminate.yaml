@@ -21,6 +21,14 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
+      - uses: actions/checkout@v4
+        name: Checkout (google-github-actions/auth prerequisite)
+      - uses: google-github-actions/auth@v2
+        name: Authenticate to Google Cloud
+        with:
+          workload_identity_provider: '${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}'
+          # service_account: '${{ secrets.GOOGLE_SERVICE_ACCOUNT }}'
+          
       - name: Checkout actions-oidc-debugger
         uses: actions/checkout@v4
         with:
@@ -32,14 +40,6 @@ jobs:
         uses: ./.github/actions/actions-oidc-debugger
         with:
           audience: '${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}'
-          
-      - uses: actions/checkout@v4
-        name: Checkout (google-github-actions/auth prerequisite)
-      - uses: google-github-actions/auth@v2
-        name: Authenticate to Google Cloud
-        with:
-          workload_identity_provider: '${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}'
-          # service_account: '${{ secrets.GOOGLE_SERVICE_ACCOUNT }}'
   
   gp-bulk-disseminate:
     needs: gcloud-authenticate
