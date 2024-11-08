@@ -15,8 +15,8 @@ on:
 jobs:
   disseminate:
     runs-on: ubuntu-latest
-    # container:
-    #   image: openbookpublishers/thoth-dissemination:latest
+    container:
+      image: openbookpublishers/thoth-dissemination:latest
     permissions:
       # Required for Google Play workflow
       contents: read
@@ -39,17 +39,9 @@ jobs:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run disseminator directly in Python
+      - name: Run disseminator using Dockerhub image
         run: |
-          python disseminator.py \
+          /disseminator.py \
             --work ${{ inputs.work-id }} \
             --platform ${{ inputs.platform }} \
             > ${{ inputs.work-id }}
