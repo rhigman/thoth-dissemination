@@ -39,30 +39,30 @@ jobs:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    #   - name: Set up Python
+    #     uses: actions/setup-python@v5
+    #     with:
+    #       python-version: '3.10'
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+    #   - name: Install dependencies
+    #     run: pip install -r requirements.txt
 
-      - name: Run disseminator directly in Python
-        run: |
-          python disseminator.py \
-            --work ${{ inputs.work-id }} \
-            --platform ${{ inputs.platform }} \
-            > ${{ inputs.work-id }}
+    #   - name: Run disseminator directly in Python
+    #     run: |
+    #       python disseminator.py \
+    #         --work ${{ inputs.work-id }} \
+    #         --platform ${{ inputs.platform }} \
+    #         > ${{ inputs.work-id }}
 
-      - name: Upload output to artifact
-        uses: actions/upload-artifact@v4
-        if: contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
-        with:
-          name: ${{ inputs.work-id }}
-          path: ${{ inputs.work-id }}
-          retention-days: 7
-          if-no-files-found: ignore
-          overwrite: false
+    #   - name: Upload output to artifact
+    #     uses: actions/upload-artifact@v4
+    #     if: contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
+    #     with:
+    #       name: ${{ inputs.work-id }}
+    #       path: ${{ inputs.work-id }}
+    #       retention-days: 7
+    #       if-no-files-found: ignore
+    #       overwrite: false
 
   write-locations:
     runs-on: ubuntu-latest
