@@ -284,7 +284,7 @@ class GooglePlayIDFinder(IDFinder):
         # to obtain only works with a publication date within the previous day.
         # The schedule for finding and depositing newly published works is once daily.
         current_date = datetime.now(UTC).date()
-        previous_day = current_date - timedelta(days=2)
+        previous_day = current_date - timedelta(days=1)
 
         self.get_thoth_ids_iteratively(previous_day, previous_day)
 
