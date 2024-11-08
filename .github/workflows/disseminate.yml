@@ -37,7 +37,7 @@ jobs:
         if: inputs.platform == 'GooglePlay'
         with:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        #   service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
     #   - name: Set up Python
     #     uses: actions/setup-python@v5
