@@ -16,30 +16,36 @@ jobs:
     outputs:
       NEW_LOCATIONS: ${{ steps.get-locations.outputs.NEW_LOCATIONS }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    #   - name: Checkout
+    #     uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+    #   - name: Set up Python
+    #     uses: actions/setup-python@v5
+    #     with:
+    #       python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install -r requirements_obtain_new_ids.txt
+    #   - name: Install dependencies
+    #     run: pip install -r requirements_obtain_new_ids.txt
 
-      - name: Get details of works without locations using Python script
-        id: get-ids
-        run: |
-          output=$(python obtain_new_ids.py --platform OAPEN --locations)
-          echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
-        env:
-          ENV_PUBLISHERS: ${{ vars.OAPEN_ENV_PUBLISHERS }}
-          ENV_EXCEPTIONS: ${{ vars.OAPEN_ENV_EXCEPTIONS }}
+    #   - name: Get details of works without locations using Python script
+    #     id: get-ids
+    #     run: |
+    #       output=$(python obtain_new_ids.py --platform OAPEN --locations)
+    #       echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
+    #     env:
+    #       ENV_PUBLISHERS: ${{ vars.OAPEN_ENV_PUBLISHERS }}
+    #       ENV_EXCEPTIONS: ${{ vars.OAPEN_ENV_EXCEPTIONS }}
 
-      - name: Get locations for selected works using Python script
+    #   - name: Get locations for selected works using Python script
+    #     id: get-locations
+    #     run: |
+    #       output=$(echo "${{ steps.get-ids.outputs.NEW_IDS }}" | python obtain_locations.py)
+    #       echo "NEW_LOCATIONS=$output" >> $GITHUB_OUTPUT
+
+      - name: test
         id: get-locations
         run: |
-          output=$(echo "${{ steps.get-ids.outputs.NEW_IDS }}" | python obtain_locations.py)
+          output='["09adb772-268d-4f94-afb7-ae226f685fe1 OAPEN https://library.oapen.org/handle/20.500.12657/98911 https://library.oapen.org/bitstream/handle/20.500.12657/98911/obp.0455.pdf?sequence=1&isAllowed=y", "83d4a362-0d15-465b-a133-742ed004b48f OAPEN https://library.oapen.org/handle/20.500.12657/98337 https://library.oapen.org/bitstream/handle/20.500.12657/98337/obp.0424.pdf?sequence=1&isAllowed=y", "8eaba0ce-5e12-457d-b62a-66bfbabd52ec OAPEN https://library.oapen.org/handle/20.500.12657/98336 https://library.oapen.org/bitstream/handle/20.500.12657/98336/obp.0409.pdf?sequence=1&isAllowed=y"]'
           echo "NEW_LOCATIONS=$output" >> $GITHUB_OUTPUT
 
   write-locations:
