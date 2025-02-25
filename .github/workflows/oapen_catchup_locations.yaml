@@ -68,8 +68,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements_write_locations.txt
 
-      - name: Write locations to Thoth using Python script
-        run: python write_locations.py ${{ matrix.location }}
+      - name: Write location to temp file
+        run: echo ${{ matrix.location }} >> location.txt
+
+      - name: Write location to Thoth using Python script
+        run: python write_locations.py location.txt
         env:
           THOTH_EMAIL: ${{ secrets.THOTH_EMAIL }}
           THOTH_PWD: ${{ secrets.THOTH_PWD }}
