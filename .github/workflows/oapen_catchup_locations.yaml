@@ -33,8 +33,8 @@ jobs:
           output=$(python obtain_new_ids.py --platform OAPEN --locations)
           echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
         env:
-          ENV_PUBLISHERS: ${{ inputs.env_publishers }}
-          ENV_EXCEPTIONS: ${{ inputs.env_exceptions }}
+          ENV_PUBLISHERS: ${{ vars.OAPEN_ENV_PUBLISHERS }}
+          ENV_EXCEPTIONS: ${{ vars.OAPEN_ENV_EXCEPTIONS }}
 
       - name: Get locations for selected works using Python script
         id: get-locations
