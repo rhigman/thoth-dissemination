@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[0.1.19]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.19) - 2025-02-24
+### Fixed
+  - Fixed date calculation error in OAPEN automatic upload workflow
+
+## [[0.1.18]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.18) - 2025-02-20
+### Added
+  - GitHub Actions for recurring automatic uploads of newly published works to OAPEN
+
+## [[0.1.17]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.17) - 2024-12-03
+### Added
+  - Support for uploading files and metadata to Google Cloud server for crawl ingest by Google Play (including recurring automatic uploads)
+  - Automatic email notifications on upload for platforms where this is required (OAPEN, EBSCOHost)
+
 ## [[0.1.16]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.16) - 2024-10-21
 ### Changed
   - Finalised JSTOR upload workflow

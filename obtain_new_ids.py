@@ -41,6 +41,7 @@ class IDFinder():
         self.get_thoth_ids()
         self.remove_exceptions()
         self.post_process()
+        logging.info('List of IDs found: {}'.format(self.thoth_ids))
         print(self.thoth_ids)
 
     def get_publishers(self):
@@ -73,6 +74,18 @@ class IDFinder():
                 sys.exit(1)
 
         self.publishers = json.dumps(publishers_env)
+
+    def get_query_parameters(self):
+        """
+        Construct Thoth work ID query parameters depending on platform-specific
+        requirements
+        """
+        # Default: all active (published) works listed in Thoth (from the selected publishers).
+        self.work_statuses = '[ACTIVE]'
+        # Start with the most recent, so that we can disregard everything else
+        # as soon as we hit the first work published earlier than the desired date range.
+        self.order = '{field: PUBLICATION_DATE, direction: DESC}'
+        self.updated_at_with_relations = None
 
     def get_thoth_ids(self):
         """Query Thoth GraphQL API with relevant parameters to retrieve required work IDs"""
@@ -145,6 +158,14 @@ class IDFinder():
                     'Failed to retrieve excepted works from environment variable')
                 sys.exit(1)
 
+    def post_process(self):
+        """
+        Amend list of retrieved work IDs depending on platform-specific
+        requirements
+        """
+        # Default: not required - keep full list
+        pass
+
 
 class CrossrefIDFinder(IDFinder):
     """Logic for retrieving work IDs which is specific to Crossref dissemination"""
@@ -175,11 +196,6 @@ class CrossrefIDFinder(IDFinder):
         self.order = '{field: UPDATED_AT_WITH_RELATIONS, direction: DESC}'
         self.updated_at_with_relations = '{{timestamp: "{}", expression: GREATER_THAN}}'.format(
             last_deposit_time_str)
-
-    def post_process(self):
-        """Amend list of retrieved work IDs depending on Crossref-specific requirements"""
-        # Not required for Crossref dissemination - keep full list
-        pass
 
 
 class InternetArchiveIDFinder(IDFinder):
@@ -221,18 +237,6 @@ class CatchupIDFinder(IDFinder):
     is handled separately, as its API allows a simpler workflow.
     """
 
-    def get_query_parameters(self):
-        """
-        Construct Thoth work ID query parameters depending on platform-specific
-        requirements
-        """
-        # Target: all active (published) works listed in Thoth (from the selected publishers).
-        self.work_statuses = '[ACTIVE]'
-        # Start with the most recent, so that we can disregard everything else
-        # as soon as we hit the first work published earlier than the desired date range.
-        self.order = '{field: PUBLICATION_DATE, direction: DESC}'
-        self.updated_at_with_relations = None
-
     def get_thoth_ids(self):
         """Query Thoth GraphQL API with relevant parameters to retrieve required work IDs"""
         # TODO Once https://github.com/thoth-pub/thoth/issues/486 is completed,
@@ -250,29 +254,9 @@ class CatchupIDFinder(IDFinder):
 
         self.get_thoth_ids_iteratively(previous_month_start, previous_month_end)
 
-    def post_process(self):
-        """
-        Amend list of retrieved work IDs depending on platform-specific
-        requirements
-        """
-        # Not required - keep full list
-        pass
-
 
 class GooglePlayIDFinder(IDFinder):
     """Logic for retrieving work IDs which is specific to Google Play dissemination"""
-
-    def get_query_parameters(self):
-        """
-        Construct Thoth work ID query parameters depending on platform-specific
-        requirements
-        """
-        # Target: all active (published) works listed in Thoth (from the selected publishers).
-        self.work_statuses = '[ACTIVE]'
-        # Start with the most recent, so that we can disregard everything else
-        # as soon as we hit the first work published earlier than the desired date range.
-        self.order = '{field: PUBLICATION_DATE, direction: DESC}'
-        self.updated_at_with_relations = None
 
     def get_thoth_ids(self):
         """Query Thoth GraphQL API with relevant parameters to retrieve required work IDs"""
@@ -288,14 +272,24 @@ class GooglePlayIDFinder(IDFinder):
 
         self.get_thoth_ids_iteratively(previous_day, previous_day)
 
-    def post_process(self):
-        """
-        Amend list of retrieved work IDs depending on platform-specific
-        requirements
-        """
-        # Not required - keep full list
-        pass
 
+class OapenIDFinder(IDFinder):
+    """Logic for retrieving work IDs which is specific to OAPEN dissemination"""
+
+    def get_thoth_ids(self):
+        """Query Thoth GraphQL API with relevant parameters to retrieve required work IDs"""
+        # TODO Once https://github.com/thoth-pub/thoth/issues/486 is completed,
+        # we can remove this overriding method and simply construct a standard query
+        # filtering by publication date
+
+        # In addition to the conditions of the query parameters, we need to filter the results
+        # to obtain only works with a publication date within the previous week.
+        # The schedule for finding and depositing newly published works is once weekly.
+        current_date = datetime.now(UTC).date()
+        previous_week_end = current_date - timedelta(days=1)
+        previous_week_start = previous_week_end - timedelta(days=6)
+
+        self.get_thoth_ids_iteratively(previous_week_start, previous_week_end)
 
 def get_arguments():
     """Simple argument parsing"""
@@ -319,12 +313,14 @@ if __name__ == '__main__':
             id_finder = CrossrefIDFinder()
         case 'GooglePlay':
             id_finder = GooglePlayIDFinder()
+        case 'OAPEN':
+            id_finder = OapenIDFinder()
         case 'Figshare' | 'Zenodo' | 'CUL':
             id_finder = CatchupIDFinder()
         case _:
             logging.error(
                 'Platform must be one of InternetArchive, Crossref, Figshare, '
-                'Zenodo, CUL or GooglePlay')
+                'Zenodo, CUL, GooglePlay or OAPEN')
             sys.exit(1)
 
     id_finder.run()
