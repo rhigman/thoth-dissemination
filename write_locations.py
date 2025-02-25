@@ -46,6 +46,7 @@ if __name__ == '__main__':
         for location in locations:
             parts = location.rstrip().split(' ')
             try:
-                write_thoth_location(parts[0], parts[1], parts[2], parts[3])
+                print(parts)
+                # write_thoth_location(parts[0], parts[1], parts[2], parts[3])
             except IndexError:
                 raise ValueError('Not enough data in entry "{}"'.location)
