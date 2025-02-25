@@ -30,7 +30,7 @@ jobs:
       - name: Get details of works without locations using Python script
         id: get-ids
         run: |
-          output=$(python obtain_new_ids.py --platform OAPEN)
+          output=$(python obtain_new_ids.py --platform OAPEN --locations)
           echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
         env:
           ENV_PUBLISHERS: ${{ inputs.env_publishers }}
