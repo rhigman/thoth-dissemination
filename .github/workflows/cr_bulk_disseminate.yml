@@ -11,6 +11,7 @@ on:
     # are more likely to be delayed)
     - cron: '45 * * * *'
   workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   cr-bulk-disseminate:
