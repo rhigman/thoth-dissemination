@@ -6,6 +6,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [[0.1.27]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.27) - 2025-07-10
+### Fixed
+  - Removed Python import for compatibility with Python 3.10
+
+## [[0.1.26]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.26) - 2025-07-09
+### Changed
+  - Downgraded `requests` to `2.32.3` to maintain compatibility with `thothlibrary`
+
+## [[0.1.25]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.25) - 2025-07-09
+### Added
+  - Dissemination workflow for Clarivate Web of Science Book Citation Index (BKCI)
+
+## [[0.1.24]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.24) - 2025-07-02
+### Changed
+  - Changed Project MUSE filename root for upload from Paperback to PDF ISBN
+
+## [[0.1.23]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.23) - 2025-07-01
+### Changed
+  - Fixed logic for jpeg file extension for cover image
+
+## [[0.1.22]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.22) - 2025-06-27
+### Changed
+  - Added support for .jpeg file extension for cover image to avoid error
+
+## [[0.1.21]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.21) - 2025-05-06
+### Changed
+  - Improved error messages for lack of PDF ISBN in GoogleBooks uploader
+
+## [[0.1.20]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.20) - 2025-03-03
+### Added
+  - GitHub Action for recurring automatic check and update of OAPEN/DOAB locations not yet listed in Thoth
+
 ## [[0.1.19]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.19) - 2025-02-24
 ### Fixed
   - Fixed date calculation error in OAPEN automatic upload workflow
