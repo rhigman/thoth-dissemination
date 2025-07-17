@@ -16,7 +16,7 @@ jobs:
   disseminate:
     runs-on: ubuntu-latest
     container:
-      image: openbookpublishers/thoth-dissemination:testerrlog
+      image: openbookpublishers/thoth-dissemination:latest
     permissions:
       # Required for Google Play workflow
       contents: read
