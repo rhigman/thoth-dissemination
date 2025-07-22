@@ -1,7 +1,7 @@
 # Purpose: dissemination via webhook from Thoth of specified work to specified platform.
 
 name: webhook-disseminate
-run-name: 'webhook-disseminate of ${{ github.event.client_payload.work_id }}'
+run-name: 'webhook-disseminate to ${{ github.event.client_payload.platform }} of ${{ github.event.client_payload.work_id }}'
 
 on:
   repository_dispatch:
@@ -12,5 +12,5 @@ jobs:
     uses: ./.github/workflows/disseminate.yml
     with:
       work-id: ${{ github.event.client_payload.work_id }}
-      platform: ${{ github.event.event_type }}
+      platform: ${{ github.event.client_payload.platform }}
     secrets: inherit
