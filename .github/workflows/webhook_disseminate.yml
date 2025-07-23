@@ -1,7 +1,7 @@
 # Purpose: dissemination via webhook from Thoth of specified work to specified platform.
 
 name: webhook-disseminate
-run-name: 'webhook-disseminate to ${{ github.event.client_payload.platform }} of ${{ github.event.client_payload.work_id }}'
+run-name: 'Crossref webhook-disseminate of ${{ github.event.client_payload.work_id }}'
 
 on:
   repository_dispatch:
