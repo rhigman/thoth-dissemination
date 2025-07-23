@@ -8,9 +8,9 @@ on:
     types: [webhook-disseminate-test]
 
 jobs:
-  manual_disseminate:
+  webhook_disseminate:
     uses: ./.github/workflows/disseminate.yml
     with:
       work-id: ${{ github.event.client_payload.work_id }}
-      platform: ${{ github.event.client_payload.platform }}
+      platform: 'Crossref'
     secrets: inherit
