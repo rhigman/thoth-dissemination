@@ -53,9 +53,9 @@ jobs:
 
       - name: Run disseminator, save outputs, output errors to job summary
         run: |
-          python disseminator.py \
+          (python disseminator.py \
             --work ${{ inputs.work-id }} \
-            --platform ${{ inputs.platform }} > ${{ inputs.work-id }} 2>&1 | tee /tmp/error.log || STATUS=$?
+            --platform ${{ inputs.platform }} > ${{ inputs.work-id }}) 2>&1 | tee /tmp/error.log || STATUS=$?
           ERROR_LOG=$(grep '^ERROR:' /tmp/error.log)
           if [ -n "$ERROR_LOG" ]; then
             echo "### Dissemination error for work ID ${{ inputs.work-id }} " >> $GITHUB_STEP_SUMMARY
