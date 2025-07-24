@@ -55,7 +55,13 @@ jobs:
         run: |
           python disseminator.py \
             --work ${{ inputs.work-id }} \
-            --platform ${{ inputs.platform }} > ${{ inputs.work-id }}
+            --platform ${{ inputs.platform }} > ${{ inputs.work-id }} 2> /tmp/error.log || STATUS=$?
+          ERROR_LOG=$(grep '^ERROR:' /tmp/error.log)
+          if [ -n "$ERROR_LOG" ]; then
+            echo "### Dissemination error for work ID ${{ inputs.work-id }} " >> $GITHUB_STEP_SUMMARY
+            echo "$ERROR_LOG" >> $GITHUB_STEP_SUMMARY
+          fi
+          exit ${STATUS:-0}
 
       - name: Upload output to artifact
         uses: actions/upload-artifact@v4
