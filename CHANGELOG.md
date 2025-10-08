@@ -8,9 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
   - [56](https://github.com/thoth-pub/thoth-dissemination/issues/56) - Created an OAPEN profile for SWORD v2 Uploader, to facilitate automatic dissemination of works from Thoth to OAPEN.
 
-## [[0.1.21]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.21) - 2025-05-06
+## [[0.1.32]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.32) - 2025-08-21
 ### Changed
-  - Improved error message for lack of PDF ISBN in GoogleBooks uploader
+  - Fixed a bug with GitHub Actions where all ```manual-disseminate``` jobs were returning exit code 1 (failure), whether they actually succeeded or not.
+
+## [[0.1.31]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.31) - 2025-08-13
+### Changed
+  - Only write `ERROR` logging messages to the GitHub Actions Job Summary, removing `INFO` messages so the Job Summaries are easier to read for batch runs of the `manual-disseminate` workflow.
+
+## [[0.1.30]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.30) - 2025-08-06
+### Changed
+  - Replaced unmaintained dependency `pysftp` with latest version of `paramiko`
+
+## [[0.1.29]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.29) - 2025-08-04
+### Fixed
+  - Added explicit import of downgraded version of `paramiko`, as workaround for import error caused by deprecated module in v4.0
+
+## [[0.1.28]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.28) - 2025-08-04
+### Changed
+  - Write error logging messages from dissemination workflows to GitHub Actions Job Summary section so they are easier to read
+  - Added Forthcoming works with DOI and publication date to automatic Crossref DOI deposit
 
 ## [[0.1.27]](https://github.com/thoth-pub/thoth-dissemination/releases/tag/v0.1.27) - 2025-07-10
 ### Fixed
