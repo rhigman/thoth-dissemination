@@ -1,0 +1,16 @@
+# Purpose: dissemination via webhook from Thoth of specified work to specified platform.
+
+name: webhook-disseminate
+run-name: 'Crossref webhook-disseminate of ${{ github.event.client_payload.work_id }}'
+
+on:
+  repository_dispatch:
+    types: [webhook-disseminate-test]
+
+jobs:
+  webhook_disseminate:
+    uses: ./.github/workflows/disseminate.yml
+    with:
+      work-id: ${{ github.event.client_payload.work_id }}
+      platform: 'Crossref'
+    secrets: inherit
