@@ -21,25 +21,28 @@ jobs:
     outputs:
       NEW_IDS: ${{ steps.get-ids.outputs.NEW_IDS }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      # - name: Checkout
+      #   uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install -r requirements_obtain_new_ids.txt
+      # - name: Install dependencies
+      #   run: pip install -r requirements_obtain_new_ids.txt
 
-      - name: Get list of work IDs using Python script
+      # - name: Get list of work IDs using Python script
+      #   id: get-ids
+      #   run: |
+      #     output=$(python obtain_new_ids.py --platform ${{ inputs.platform }})
+      #     echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
+      #   env:
+      #     ENV_PUBLISHERS: ${{ inputs.env_publishers }}
+      #     ENV_EXCEPTIONS: ${{ inputs.env_exceptions }}
+      - name: Temp
         id: get-ids
-        run: |
-          output=$(python obtain_new_ids.py --platform ${{ inputs.platform }})
-          echo "NEW_IDS=$output" >> $GITHUB_OUTPUT
-        env:
-          ENV_PUBLISHERS: ${{ inputs.env_publishers }}
-          ENV_EXCEPTIONS: ${{ inputs.env_exceptions }}
+        run: echo "NEW_IDS=['2566ed3d-3df1-4e56-a7dc-455ecf7d3a4b']" >> $GITHUB_OUTPUT
 
   bulk-disseminate:
     needs: obtain-new-ids
