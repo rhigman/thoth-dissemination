@@ -19,7 +19,7 @@ jobs:
       # Required for Google Play workflow
       contents: read
       id-token: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,30 +40,30 @@ jobs:
           convert: lower
           exclude: GOOGLE_WORKLOAD_ID_PROVIDER, GOOGLE_SERVICE_ACCOUNT
 
-      - name: Checkout (google-github-actions/auth prerequisite)
-        uses: actions/checkout@v4
-        if: inputs.platform == 'GooglePlay'
+      # - name: Checkout (google-github-actions/auth prerequisite)
+      #   uses: actions/checkout@v4
+      #   if: inputs.platform == 'GooglePlay'
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        if: inputs.platform == 'GooglePlay'
-        with:
-          workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+      # - name: Authenticate to Google Cloud
+      #   uses: google-github-actions/auth@v2
+      #   if: inputs.platform == 'GooglePlay'
+      #   with:
+      #     workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
+      #     service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Run disseminator using Dockerhub image
         run: |
           STDOUT="${{ inputs.work-id }}"
           STDERR=$(mktemp)
-          
+
           # Disable exit on error temporarily to allow processing of failures
           set +e
           python disseminator.py \
             --work "${{ inputs.work-id }}" \
             --platform "${{ inputs.platform }}" \
             > >(tee "$STDOUT") 2> >(tee "$STDERR" >&2)
-          # Capture exit code  
-          STATUS=$?  
+          # Capture exit code
+          STATUS=$?
           # Re-enable exit on error for following step
           set -e
 
@@ -76,7 +76,7 @@ jobs:
               echo '```' >> $GITHUB_STEP_SUMMARY
             fi
           fi
-          
+
           # Exit with actual exit code from disseminator.py
           exit $STATUS
 
