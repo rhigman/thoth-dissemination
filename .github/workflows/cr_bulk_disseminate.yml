@@ -15,6 +15,7 @@ on:
 
 jobs:
   cr-bulk-disseminate:
+    environment: crossref_environment
     uses: ./.github/workflows/bulk_disseminate.yml
     with:
       platform: 'Crossref'
