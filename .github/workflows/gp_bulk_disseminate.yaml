@@ -16,10 +16,10 @@ on:
 
 jobs:
   gp-bulk-disseminate:
-    environment: googleplay_environment
     uses: ./.github/workflows/bulk_disseminate.yml
     with:
       platform: 'GooglePlay'
       env_publishers: ${{ vars.GP_ENV_PUBLISHERS }}
       env_exceptions: ${{ vars.GP_ENV_EXCEPTIONS }}
+      environment: googleplay_environment
     secrets: inherit
