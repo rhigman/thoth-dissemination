@@ -16,6 +16,7 @@ on:
 
 jobs:
   gp-bulk-disseminate:
+    environment: googleplay_environment
     uses: ./.github/workflows/bulk_disseminate.yml
     with:
       platform: 'GooglePlay'
