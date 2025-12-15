@@ -15,6 +15,7 @@ on:
 jobs:
   disseminate:
     runs-on: ubuntu-latest
+    environment: disseminate
     permissions:
       # Required for Google Play workflow
       contents: read
@@ -51,7 +52,7 @@ jobs:
           workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
-      - name: Run disseminator using Dockerhub image
+      - name: Run disseminator using Python script
         run: |
           STDOUT="${{ inputs.work-id }}"
           STDERR=$(mktemp)
