@@ -409,7 +409,7 @@ if __name__ == '__main__':
                 id_finder = CrossrefIDFinder()
             case 'GooglePlay':
                 id_finder = GooglePlayIDFinder()
-            case 'OAPEN', 'EBSCOHost':
+            case 'OAPEN', 'EBSCOHost', 'JSTOR':
                 id_finder = WeeklyIDFinder()
             case 'Figshare' | 'Zenodo' | 'CUL':
                 id_finder = MonthlyIDFinder()
@@ -418,7 +418,7 @@ if __name__ == '__main__':
             case _:
                 logging.error(
                     'Platform must be one of InternetArchive, Crossref, Figshare, '
-                    'Zenodo, CUL, GooglePlay, BKCI, OAPEN or EBSCOHost')
+                    'Zenodo, CUL, GooglePlay, BKCI, OAPEN, EBSCOHost or JSTOR')
                 sys.exit(1)
 
     id_finder.run()
