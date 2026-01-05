@@ -409,7 +409,7 @@ if __name__ == '__main__':
                 id_finder = CrossrefIDFinder()
             case 'GooglePlay':
                 id_finder = GooglePlayIDFinder()
-            case 'OAPEN', 'EBSCOHost', 'JSTOR', 'ProjectMUSE', 'ProQuest':
+            case 'OAPEN' | 'EBSCOHost' | 'JSTOR' | 'ProjectMUSE' | 'ProQuest':
                 id_finder = WeeklyIDFinder()
             case 'Figshare' | 'Zenodo' | 'CUL':
                 id_finder = MonthlyIDFinder()
