@@ -93,6 +93,7 @@ jobs:
 
   write-locations:
     runs-on: ubuntu-latest
+    environment: disseminate
     needs: disseminate
     if: contains(fromJSON('["InternetArchive", "CUL", "Figshare", "Zenodo"]'), inputs.platform)
     steps:
@@ -121,6 +122,7 @@ jobs:
 
   send-email:
     runs-on: ubuntu-latest
+    environment: disseminate
     needs: disseminate
     if: contains(fromJSON('["OAPEN", "EBSCOHost", "BKCI", "JSTOR", "ProjectMUSE", "ProQuest"]'), inputs.platform)
     steps:
