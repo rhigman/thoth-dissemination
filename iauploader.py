@@ -41,7 +41,7 @@ class IAUploader(Uploader):
 
         # # Include full work metadata file in JSON format,
         # # as a supplement to filling out Internet Archive metadata fields
-        # metadata_bytes = self.get_formatted_metadata('json::thoth')
+        metadata_bytes = self.get_formatted_metadata('json::thoth')
         # # Can't continue if no PDF file is present
         # try:
         #     publication = self.get_publication_details('PDF')
@@ -57,10 +57,10 @@ class IAUploader(Uploader):
         try:
             responses = upload(
                 identifier=filename,
-                # files={
+                files={
                 #     '{}.pdf'.format(filename): BytesIO(pdf_bytes),
-                #     '{}.json'.format(filename): BytesIO(metadata_bytes),
-                # },
+                    '{}.json'.format(filename): BytesIO(metadata_bytes),
+                },
                 metadata=ia_metadata,
                 access_key=access_key,
                 secret_key=secret_key,
