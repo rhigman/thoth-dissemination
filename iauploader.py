@@ -29,7 +29,7 @@ class IAUploader(Uploader):
             sys.exit(1)
 
         # Use Thoth ID as unique identifier (URL will be in format `archive.org/details/[identifier]`)
-        filename = self.work_id
+        filename = 'TESTTESTTEST99999'
 
         # Ensure that this identifier is available in the Archive
         # (this will also check that the identifier is in a valid format,
@@ -39,16 +39,16 @@ class IAUploader(Uploader):
                 'Cannot upload to Internet Archive: an item with this identifier already exists')
             sys.exit(1)
 
-        # Include full work metadata file in JSON format,
-        # as a supplement to filling out Internet Archive metadata fields
-        metadata_bytes = self.get_formatted_metadata('json::thoth')
-        # Can't continue if no PDF file is present
-        try:
-            publication = self.get_publication_details('PDF')
-            pdf_bytes = publication.bytes
-        except DisseminationError as error:
-            logging.error(error)
-            sys.exit(1)
+        # # Include full work metadata file in JSON format,
+        # # as a supplement to filling out Internet Archive metadata fields
+        # metadata_bytes = self.get_formatted_metadata('json::thoth')
+        # # Can't continue if no PDF file is present
+        # try:
+        #     publication = self.get_publication_details('PDF')
+        #     pdf_bytes = publication.bytes
+        # except DisseminationError as error:
+        #     logging.error(error)
+        #     sys.exit(1)
 
         # Convert Thoth work metadata into Internet Archive format
         # (not expected to fail, as "required" metadata is minimal)
@@ -57,10 +57,10 @@ class IAUploader(Uploader):
         try:
             responses = upload(
                 identifier=filename,
-                files={
-                    '{}.pdf'.format(filename): BytesIO(pdf_bytes),
-                    '{}.json'.format(filename): BytesIO(metadata_bytes),
-                },
+                # files={
+                #     '{}.pdf'.format(filename): BytesIO(pdf_bytes),
+                #     '{}.json'.format(filename): BytesIO(metadata_bytes),
+                # },
                 metadata=ia_metadata,
                 access_key=access_key,
                 secret_key=secret_key,
@@ -131,7 +131,7 @@ class IAUploader(Uploader):
         ia_metadata = {
             # All fields are non-mandatory
             # Any None values or empty lists are ignored by IA on ingest
-            'collection': 'thoth-archiving-network',
+            'collection': 'test_collection',
             'title': work_metadata.get('fullTitle'),
             'publisher': self.get_publisher_name(),
             'creator': creators,
@@ -139,7 +139,7 @@ class IAUploader(Uploader):
             'date': work_metadata.get('publicationDate'),
             'description': work_metadata.get('longAbstract'),
             # Field name is misleading; displayed in IA as 'Pages'
-            'imagecount': work_metadata.get('pageCount'),
+            'imagecount': str(work_metadata.get('pageCount')),
             'isbn': isbns,
             'lccn': work_metadata.get('lccn'),
             'licenseurl': work_metadata.get('license'),
