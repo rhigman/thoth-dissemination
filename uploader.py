@@ -266,7 +266,9 @@ class Uploader():
                 raise DisseminationError('Data at "{}" is not in format "{}"'.format(
                     url, expected_format))
 
-        url_content = requests.get(url)
+        url_content = requests.get(url, headers={
+            "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36",
+        })
         if url_content.status_code == 200:
             # Return downloaded data as bytes
             return url_content.content
