@@ -29,7 +29,7 @@ class IAUploader(Uploader):
             sys.exit(1)
 
         # Use Thoth ID as unique identifier (URL will be in format `archive.org/details/[identifier]`)
-        filename = 'jjjdd222gg999911TESTTESTTEST99999h'
+        filename = 'TESTTESTTEST99999'
 
         # Ensure that this identifier is available in the Archive
         # (this will also check that the identifier is in a valid format,
